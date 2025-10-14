@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export type TransactionType = "income" | "expense";
@@ -20,8 +20,24 @@ interface TransactionContextType {
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
+const LOCAL_STORAGE_KEY = "finance_tracker_transactions";
+
 export const TransactionProvider = ({ children }: { children: ReactNode }) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    // Load transactions from local storage on initial render
+    if (typeof window !== "undefined") {
+      const savedTransactions = localStorage.getItem(LOCAL_STORAGE_KEY);
+      return savedTransactions ? JSON.parse(savedTransactions) : [];
+    }
+    return [];
+  });
+
+  // Save transactions to local storage whenever they change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(transactions));
+    }
+  }, [transactions]);
 
   const addTransaction = (newTransaction: Omit<Transaction, "id" | "date">) => {
     const transactionWithIdAndDate: Transaction = {
