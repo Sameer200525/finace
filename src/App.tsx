@@ -10,7 +10,9 @@ import Dashboard from "./pages/Dashboard";
 import Income from "./pages/Income";
 import Expenses from "./pages/Expenses";
 import Investments from "./pages/Investments";
-import { TransactionProvider } from "./context/TransactionContext"; // Import the provider
+import Login from "./pages/Login"; // Import the new Login page
+import { TransactionProvider } from "./context/TransactionContext";
+import { SessionContextProvider } from "./context/SessionContext"; // Import the SessionContextProvider
 
 const queryClient = new QueryClient();
 
@@ -20,19 +22,22 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <TransactionProvider> {/* Wrap routes with TransactionProvider */}
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route element={<Layout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/income" element={<Income />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/investments" element={<Investments />} />
-            </Route>
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </TransactionProvider>
+        <SessionContextProvider> {/* Wrap the entire app with SessionContextProvider */}
+          <TransactionProvider>
+            <Routes>
+              <Route path="/login" element={<Login />} /> {/* Add the login route */}
+              <Route path="/" element={<Index />} />
+              <Route element={<Layout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/income" element={<Income />} />
+                <Route path="/expenses" element={<Expenses />} />
+                <Route path="/investments" element={<Investments />} />
+              </Route>
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </TransactionProvider>
+        </SessionContextProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
