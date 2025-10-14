@@ -3,7 +3,7 @@
 import React from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { convertUsdToInr, formatCurrencyINR } from "@/utils/currency"; // Import the new utility
+import { convertUsdToInr, formatCurrencyINR, USD_TO_INR_RATE } from "@/utils/currency"; // Import USD_TO_INR_RATE
 
 interface IncomeExpenseChartProps {
   totalIncome: number;
