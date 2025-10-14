@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wallet, PiggyBank, TrendingUp } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import IncomeExpenseChart from "@/components/IncomeExpenseChart"; // Import the new chart component
+import IncomeExpenseChart from "@/components/IncomeExpenseChart";
+import { cn } from "@/lib/utils"; // Import cn utility
 
 const Dashboard = () => {
   const { transactions } = useTransactions();
@@ -102,7 +103,7 @@ const Dashboard = () => {
                       </span>
                     </TableCell>
                     <TableCell>{transaction.sourceOrCategory}</TableCell>
-                    <TableCell className="text-right font-semibold ${transaction.type === "income" ? "text-green-600" : "text-red-600"}">
+                    <TableCell className={cn("text-right font-semibold", transaction.type === "income" ? "text-green-600" : "text-red-600")}>
                       ${transaction.amount.toFixed(2)}
                     </TableCell>
                   </TableRow>
