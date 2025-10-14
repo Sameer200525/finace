@@ -92,7 +92,7 @@ const Dashboard = () => {
               </TableHeader>
               <TableBody>
                 {recentTransactions.map((transaction) => (
-                  <TableRow key={transaction.id}>
+                  <TableRow key={transaction.id} className="hover:bg-muted/50">
                     <TableCell>{transaction.date}</TableCell>
                     <TableCell>
                       <span className={`font-medium ${transaction.type === "income" ? "text-green-600" : "text-red-600"}`}>

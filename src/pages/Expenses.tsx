@@ -96,7 +96,7 @@ const Expenses = () => {
               </TableHeader>
               <TableBody>
                 {expenseTransactions.map((transaction) => (
-                  <TableRow key={transaction.id}>
+                  <TableRow key={transaction.id} className="hover:bg-muted/50">
                     <TableCell>{transaction.date}</TableCell>
                     <TableCell>{transaction.sourceOrCategory}</TableCell>
                     <TableCell className="text-right">${transaction.amount.toFixed(2)}</TableCell>

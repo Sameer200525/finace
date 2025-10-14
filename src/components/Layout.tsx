@@ -48,7 +48,7 @@ export function Layout() {
   if (isMobile) {
     return (
       <div className="flex flex-col min-h-screen">
-        <header className="sticky top-0 z-40 w-full border-b bg-background p-4 flex items-center justify-between">
+        <header className="sticky top-0 z-40 w-full border-b bg-background p-4 flex items-center justify-between shadow-sm">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -88,7 +88,7 @@ export function Layout() {
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={85}>
         <div className="flex flex-col h-full">
-          <header className="sticky top-0 z-40 w-full border-b bg-background p-4">
+          <header className="sticky top-0 z-40 w-full border-b bg-background p-4 shadow-sm">
             <h1 className="text-2xl font-bold">
               {sidebarNavItems.find(item => location.pathname.startsWith(item.href))?.title || "Dashboard"}
             </h1>
