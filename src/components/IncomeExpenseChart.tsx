@@ -3,6 +3,7 @@
 import React from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { convertUsdToInr, formatCurrencyINR } from "@/utils/currency"; // Import the new utility
 
 interface IncomeExpenseChartProps {
   totalIncome: number;
@@ -11,8 +12,8 @@ interface IncomeExpenseChartProps {
 
 const IncomeExpenseChart: React.FC<IncomeExpenseChartProps> = ({ totalIncome, totalExpenses }) => {
   const data = [
-    { name: "Income", amount: totalIncome },
-    { name: "Expenses", amount: totalExpenses },
+    { name: "Income", amount: convertUsdToInr(totalIncome) }, // Convert for chart data
+    { name: "Expenses", amount: convertUsdToInr(totalExpenses) }, // Convert for chart data
   ];
 
   return (
@@ -34,8 +35,8 @@ const IncomeExpenseChart: React.FC<IncomeExpenseChartProps> = ({ totalIncome, to
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
+              <YAxis tickFormatter={(value: number) => formatCurrencyINR(value / USD_TO_INR_RATE)} /> {/* Format Y-axis ticks */}
+              <Tooltip formatter={(value: number) => formatCurrencyINR(value / USD_TO_INR_RATE)} /> {/* Format tooltip values */}
               <Bar dataKey="amount" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>

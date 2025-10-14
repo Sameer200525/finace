@@ -6,8 +6,9 @@ import { Wallet, PiggyBank, TrendingUp } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import IncomeExpenseChart from "@/components/IncomeExpenseChart";
-import BudgetTracker from "@/components/BudgetTracker"; // Import the new BudgetTracker component
+import BudgetTracker from "@/components/BudgetTracker";
 import { cn } from "@/lib/utils";
+import { formatCurrencyINR } from "@/utils/currency"; // Import the new utility
 
 const Dashboard = () => {
   const { transactions } = useTransactions();
@@ -40,7 +41,7 @@ const Dashboard = () => {
             <Wallet className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">${totalIncome.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-green-600">{formatCurrencyINR(totalIncome)}</div>
             <p className="text-xs text-muted-foreground">
               Total income recorded
             </p>
@@ -52,7 +53,7 @@ const Dashboard = () => {
             <PiggyBank className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">${totalExpenses.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-red-600">{formatCurrencyINR(totalExpenses)}</div>
             <p className="text-xs text-muted-foreground">
               Total expenses recorded
             </p>
@@ -65,7 +66,7 @@ const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className={`text-2xl font-bold ${netSavings >= 0 ? "text-green-600" : "text-red-600"}`}>
-              ${netSavings.toFixed(2)}
+              {formatCurrencyINR(netSavings)}
             </div>
             <p className="text-xs text-muted-foreground">
               Income minus expenses
@@ -74,10 +75,8 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Budget Tracker Component */}
       <BudgetTracker />
 
-      {/* Income/Expense Chart */}
       <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
 
       <Card>
@@ -108,7 +107,7 @@ const Dashboard = () => {
                     </TableCell>
                     <TableCell>{transaction.sourceOrCategory}</TableCell>
                     <TableCell className={cn("text-right font-semibold", transaction.type === "income" ? "text-green-600" : "text-red-600")}>
-                      ${transaction.amount.toFixed(2)}
+                      {formatCurrencyINR(transaction.amount)}
                     </TableCell>
                   </TableRow>
                 ))}

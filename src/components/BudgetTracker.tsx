@@ -10,6 +10,7 @@ import { DollarSign, Target } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { showSuccess, showError } from "@/utils/toast";
 import { cn } from "@/lib/utils";
+import { formatCurrencyINR } from "@/utils/currency"; // Import the new utility
 
 const BudgetTracker = () => {
   const { transactions, budgetTarget, setBudgetTarget } = useTransactions();
@@ -46,7 +47,7 @@ const BudgetTracker = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-2">
-          <Label htmlFor="budget-target">Set Your Monthly Budget</Label>
+          <Label htmlFor="budget-target">Set Your Monthly Budget (in USD)</Label> {/* Clarify input is USD */}
           <div className="flex space-x-2">
             <Input
               id="budget-target"
@@ -65,14 +66,14 @@ const BudgetTracker = () => {
         {budgetTarget !== null && (
           <div className="space-y-3">
             <div className="flex justify-between text-sm">
-              <span>Budget: <span className="font-semibold">${budgetTarget.toFixed(2)}</span></span>
-              <span>Expenses: <span className="font-semibold text-red-600">${totalExpenses.toFixed(2)}</span></span>
+              <span>Budget: <span className="font-semibold">{formatCurrencyINR(budgetTarget)}</span></span>
+              <span>Expenses: <span className="font-semibold text-red-600">{formatCurrencyINR(totalExpenses)}</span></span>
             </div>
             <Progress value={progressValue} className="h-2" />
             <div className="text-sm">
               Remaining:{" "}
               <span className={cn("font-semibold", remainingBudget !== null && remainingBudget < 0 ? "text-red-600" : "text-green-600")}>
-                ${remainingBudget !== null ? remainingBudget.toFixed(2) : "N/A"}
+                {remainingBudget !== null ? formatCurrencyINR(remainingBudget) : "N/A"}
               </span>
             </div>
             {remainingBudget !== null && remainingBudget < 0 && (

@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle, Trash2 } from "lucide-react"; // Import Trash2 icon
+import { PlusCircle, Trash2 } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { showSuccess, showError } from "@/utils/toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { formatCurrencyINR } from "@/utils/currency"; // Import the new utility
 
 const Income = () => {
   const { transactions, addTransaction, deleteTransaction } = useTransactions();
@@ -62,7 +63,7 @@ const Income = () => {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="income-amount">Amount</Label>
+            <Label htmlFor="income-amount">Amount (in USD)</Label> {/* Clarify input is USD */}
             <Input
               id="income-amount"
               type="number"
@@ -90,8 +91,8 @@ const Income = () => {
                 <TableRow>
                   <TableHead>Date</TableHead>
                   <TableHead>Source</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                  <TableHead className="text-right">Actions</TableHead> {/* New column for actions */}
+                  <TableHead className="text-right">Amount (INR)</TableHead> {/* Update header */}
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -99,7 +100,7 @@ const Income = () => {
                   <TableRow key={transaction.id} className="hover:bg-muted/50">
                     <TableCell>{transaction.date}</TableCell>
                     <TableCell>{transaction.sourceOrCategory}</TableCell>
-                    <TableCell className="text-right font-semibold text-green-600">${transaction.amount.toFixed(2)}</TableCell>
+                    <TableCell className="text-right font-semibold text-green-600">{formatCurrencyINR(transaction.amount)}</TableCell>
                     <TableCell className="text-right">
                       <Button
                         variant="ghost"
