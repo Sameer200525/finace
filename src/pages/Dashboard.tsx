@@ -6,7 +6,8 @@ import { Wallet, PiggyBank, TrendingUp } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import IncomeExpenseChart from "@/components/IncomeExpenseChart";
-import { cn } from "@/lib/utils"; // Import cn utility
+import BudgetTracker from "@/components/BudgetTracker"; // Import the new BudgetTracker component
+import { cn } from "@/lib/utils";
 
 const Dashboard = () => {
   const { transactions } = useTransactions();
@@ -73,7 +74,10 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* New Chart Component */}
+      {/* Budget Tracker Component */}
+      <BudgetTracker />
+
+      {/* Income/Expense Chart */}
       <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
 
       <Card>

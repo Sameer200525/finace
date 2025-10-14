@@ -16,29 +16,48 @@ export interface Transaction {
 interface TransactionContextType {
   transactions: Transaction[];
   addTransaction: (transaction: Omit<Transaction, "id" | "date">) => void;
-  deleteTransaction: (id: string) => void; // Add delete function
+  deleteTransaction: (id: string) => void;
+  budgetTarget: number | null; // New: Budget target
+  setBudgetTarget: (target: number | null) => void; // New: Function to set budget target
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = "finance_tracker_transactions";
+const LOCAL_STORAGE_TRANSACTIONS_KEY = "finance_tracker_transactions";
+const LOCAL_STORAGE_BUDGET_KEY = "finance_tracker_budget_target"; // New: Key for budget target
 
 export const TransactionProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
-    // Load transactions from local storage on initial render
     if (typeof window !== "undefined") {
-      const savedTransactions = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const savedTransactions = localStorage.getItem(LOCAL_STORAGE_TRANSACTIONS_KEY);
       return savedTransactions ? JSON.parse(savedTransactions) : [];
     }
     return [];
   });
 
-  // Save transactions to local storage whenever they change
+  const [budgetTarget, setBudgetTarget] = useState<number | null>(() => {
+    if (typeof window !== "undefined") {
+      const savedBudgetTarget = localStorage.getItem(LOCAL_STORAGE_BUDGET_KEY);
+      return savedBudgetTarget ? parseFloat(savedBudgetTarget) : null;
+    }
+    return null;
+  });
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(transactions));
+      localStorage.setItem(LOCAL_STORAGE_TRANSACTIONS_KEY, JSON.stringify(transactions));
     }
   }, [transactions]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (budgetTarget !== null) {
+        localStorage.setItem(LOCAL_STORAGE_BUDGET_KEY, budgetTarget.toString());
+      } else {
+        localStorage.removeItem(LOCAL_STORAGE_BUDGET_KEY);
+      }
+    }
+  }, [budgetTarget]);
 
   const addTransaction = (newTransaction: Omit<Transaction, "id" | "date">) => {
     const transactionWithIdAndDate: Transaction = {
@@ -54,7 +73,7 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <TransactionContext.Provider value={{ transactions, addTransaction, deleteTransaction }}>
+    <TransactionContext.Provider value={{ transactions, addTransaction, deleteTransaction, budgetTarget, setBudgetTarget }}>
       {children}
     </TransactionContext.Provider>
   );
