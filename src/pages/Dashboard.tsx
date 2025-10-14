@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wallet, PiggyBank, TrendingUp } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import IncomeExpenseChart from "@/components/IncomeExpenseChart"; // Import the new chart component
 
 const Dashboard = () => {
   const { transactions } = useTransactions();
@@ -68,6 +69,9 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* New Chart Component */}
+      <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
 
       <Card>
         <CardHeader>
