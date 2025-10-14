@@ -1,7 +1,7 @@
 "use client";
 
 // Fixed exchange rate for USD to INR. This can be updated if needed.
-const USD_TO_INR_RATE = 83.00;
+export const USD_TO_INR_RATE = 83.00; // Added 'export' keyword
 
 export const formatCurrencyINR = (amount: number): string => {
   const inrAmount = amount * USD_TO_INR_RATE;
