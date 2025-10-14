@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { MenuIcon, LayoutDashboard, Wallet, PiggyBank, TrendingUp } from "lucide-react";
 import { SidebarNav } from "./SidebarNav";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { MadeWithDyad } from "./made-with-dyad";
+
 
 const sidebarNavItems = [
   {
@@ -66,7 +66,6 @@ export function Layout() {
         <main className="flex-1 p-4 overflow-auto">
           <Outlet />
         </main>
-        <MadeWithDyad />
       </div>
     );
   }
@@ -81,7 +80,7 @@ export function Layout() {
           <h2 className="text-2xl font-bold mb-6">Finance Tracker</h2>
           <SidebarNav items={sidebarNavItems} onLinkClick={() => {}} />
           <div className="mt-auto">
-            <MadeWithDyad />
+            {/* MadeWithDyad component removed */}
           </div>
         </div>
       </ResizablePanel>
