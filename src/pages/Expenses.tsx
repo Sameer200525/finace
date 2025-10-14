@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trash2 } from "lucide-react"; // Import Trash2 icon
 import { useTransactions } from "@/context/TransactionContext";
 import { showSuccess, showError } from "@/utils/toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const Expenses = () => {
-  const { transactions, addTransaction } = useTransactions();
+  const { transactions, addTransaction, deleteTransaction } = useTransactions();
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
 
@@ -33,6 +33,11 @@ const Expenses = () => {
     showSuccess("Expense added successfully!");
     setCategory("");
     setAmount("");
+  };
+
+  const handleDeleteExpense = (id: string) => {
+    deleteTransaction(id);
+    showSuccess("Expense deleted successfully!");
   };
 
   return (
@@ -86,6 +91,7 @@ const Expenses = () => {
                   <TableHead>Date</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
+                  <TableHead className="text-right">Actions</TableHead> {/* New column for actions */}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -94,6 +100,16 @@ const Expenses = () => {
                     <TableCell>{transaction.date}</TableCell>
                     <TableCell>{transaction.sourceOrCategory}</TableCell>
                     <TableCell className="text-right">${transaction.amount.toFixed(2)}</TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDeleteExpense(transaction.id)}
+                        aria-label="Delete expense"
+                      >
+                        <Trash2 className="h-4 w-4 text-red-500" />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

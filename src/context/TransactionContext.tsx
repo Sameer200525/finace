@@ -16,6 +16,7 @@ export interface Transaction {
 interface TransactionContextType {
   transactions: Transaction[];
   addTransaction: (transaction: Omit<Transaction, "id" | "date">) => void;
+  deleteTransaction: (id: string) => void; // Add delete function
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
@@ -48,8 +49,12 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
     setTransactions((prevTransactions) => [...prevTransactions, transactionWithIdAndDate]);
   };
 
+  const deleteTransaction = (id: string) => {
+    setTransactions((prevTransactions) => prevTransactions.filter(transaction => transaction.id !== id));
+  };
+
   return (
-    <TransactionContext.Provider value={{ transactions, addTransaction }}>
+    <TransactionContext.Provider value={{ transactions, addTransaction, deleteTransaction }}>
       {children}
     </TransactionContext.Provider>
   );
