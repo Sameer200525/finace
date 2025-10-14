@@ -31,8 +31,8 @@ export function SidebarNav({ className, items, onLinkClick, ...props }: SidebarN
             cn(
               "inline-flex items-center justify-start whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2",
               isActive
-                ? "bg-muted hover:bg-muted"
-                : "hover:bg-transparent hover:underline",
+                ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                : "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
               "w-full justify-start"
             )
           }

@@ -99,7 +99,7 @@ const Income = () => {
                   <TableRow key={transaction.id} className="hover:bg-muted/50">
                     <TableCell>{transaction.date}</TableCell>
                     <TableCell>{transaction.sourceOrCategory}</TableCell>
-                    <TableCell className="text-right">${transaction.amount.toFixed(2)}</TableCell>
+                    <TableCell className="text-right font-semibold text-green-600">${transaction.amount.toFixed(2)}</TableCell>
                     <TableCell className="text-right">
                       <Button
                         variant="ghost"

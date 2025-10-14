@@ -38,7 +38,7 @@ const Dashboard = () => {
             <Wallet className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalIncome.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-green-600">${totalIncome.toFixed(2)}</div>
             <p className="text-xs text-muted-foreground">
               Total income recorded
             </p>
@@ -50,7 +50,7 @@ const Dashboard = () => {
             <PiggyBank className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalExpenses.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-red-600">${totalExpenses.toFixed(2)}</div>
             <p className="text-xs text-muted-foreground">
               Total expenses recorded
             </p>
@@ -62,7 +62,9 @@ const Dashboard = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${netSavings.toFixed(2)}</div>
+            <div className={`text-2xl font-bold ${netSavings >= 0 ? "text-green-600" : "text-red-600"}`}>
+              ${netSavings.toFixed(2)}
+            </div>
             <p className="text-xs text-muted-foreground">
               Income minus expenses
             </p>
@@ -95,12 +97,14 @@ const Dashboard = () => {
                   <TableRow key={transaction.id} className="hover:bg-muted/50">
                     <TableCell>{transaction.date}</TableCell>
                     <TableCell>
-                      <span className={`font-medium ${transaction.type === "income" ? "text-green-600" : "text-red-600"}`}>
+                      <span className={`font-semibold ${transaction.type === "income" ? "text-green-600" : "text-red-600"}`}>
                         {transaction.type === "income" ? "Income" : "Expense"}
                       </span>
                     </TableCell>
                     <TableCell>{transaction.sourceOrCategory}</TableCell>
-                    <TableCell className="text-right">${transaction.amount.toFixed(2)}</TableCell>
+                    <TableCell className="text-right font-semibold ${transaction.type === "income" ? "text-green-600" : "text-red-600"}">
+                      ${transaction.amount.toFixed(2)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

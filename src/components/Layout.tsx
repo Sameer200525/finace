@@ -55,7 +55,7 @@ export function Layout() {
                 <MenuIcon className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-4">
+            <SheetContent side="left" className="w-64 p-4 bg-sidebar-primary text-sidebar-primary-foreground">
               <h2 className="text-lg font-semibold mb-4">Finance Tracker</h2>
               <SidebarNav items={sidebarNavItems} onLinkClick={() => setIsSheetOpen(false)} />
             </SheetContent>
@@ -77,8 +77,8 @@ export function Layout() {
       className="min-h-screen items-stretch"
     >
       <ResizablePanel defaultSize={15} minSize={10} maxSize={20}>
-        <div className="flex h-full flex-col p-4 border-r bg-sidebar text-sidebar-foreground">
-          <h2 className="text-2xl font-bold mb-6 text-sidebar-primary">Finance Tracker</h2>
+        <div className="flex h-full flex-col p-4 border-r bg-sidebar-primary text-sidebar-primary-foreground">
+          <h2 className="text-2xl font-bold mb-6">Finance Tracker</h2>
           <SidebarNav items={sidebarNavItems} onLinkClick={() => {}} />
           <div className="mt-auto">
             <MadeWithDyad />
