@@ -19,9 +19,11 @@ const Expenses = () => {
   const expenseTransactions = transactions.filter(t => t.type === "expense");
 
   const handleAddExpense = () => {
+    console.log("Expenses: handleAddExpense called with category:", category, "amount:", amount);
     const parsedAmount = parseFloat(amount);
     if (!category || isNaN(parsedAmount) || parsedAmount <= 0) {
       showError("Please enter a valid category and a positive amount.");
+      console.error("Expenses: Invalid input for adding expense.");
       return;
     }
 

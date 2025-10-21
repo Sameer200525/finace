@@ -19,9 +19,11 @@ const Income = () => {
   const incomeTransactions = transactions.filter(t => t.type === "income");
 
   const handleAddIncome = () => {
+    console.log("Income: handleAddIncome called with source:", source, "amount:", amount);
     const parsedAmount = parseFloat(amount);
     if (!source || isNaN(parsedAmount) || parsedAmount <= 0) {
       showError("Please enter a valid source and a positive amount.");
+      console.error("Income: Invalid input for adding income.");
       return;
     }
 
