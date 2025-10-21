@@ -30,7 +30,6 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     if (typeof window !== "undefined") {
       const savedTransactions = localStorage.getItem(LOCAL_STORAGE_TRANSACTIONS_KEY);
-      console.log("TransactionProvider: Initial load from localStorage (transactions):", savedTransactions ? JSON.parse(savedTransactions) : []);
       return savedTransactions ? JSON.parse(savedTransactions) : [];
     }
     return [];
@@ -39,7 +38,6 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
   const [budgetTarget, setBudgetTarget] = useState<number | null>(() => {
     if (typeof window !== "undefined") {
       const savedBudgetTarget = localStorage.getItem(LOCAL_STORAGE_BUDGET_KEY);
-      console.log("TransactionProvider: Initial load from localStorage (budgetTarget):", savedBudgetTarget ? parseFloat(savedBudgetTarget) : null);
       return savedBudgetTarget ? parseFloat(savedBudgetTarget) : null;
     }
     return null;
@@ -47,14 +45,12 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      console.log("TransactionProvider: Saving transactions to localStorage:", transactions);
       localStorage.setItem(LOCAL_STORAGE_TRANSACTIONS_KEY, JSON.stringify(transactions));
     }
   }, [transactions]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      console.log("TransactionProvider: Saving budgetTarget to localStorage:", budgetTarget);
       if (budgetTarget !== null) {
         localStorage.setItem(LOCAL_STORAGE_BUDGET_KEY, budgetTarget.toString());
       } else {
@@ -69,12 +65,10 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
       id: uuidv4(),
       date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
     };
-    console.log("TransactionProvider: Adding new transaction:", transactionWithIdAndDate);
     setTransactions((prevTransactions) => [...prevTransactions, transactionWithIdAndDate]);
   };
 
   const deleteTransaction = (id: string) => {
-    console.log("TransactionProvider: Deleting transaction with ID:", id);
     setTransactions((prevTransactions) => prevTransactions.filter(transaction => transaction.id !== id));
   };
 

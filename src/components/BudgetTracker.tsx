@@ -10,11 +10,11 @@ import { DollarSign, Target } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { showSuccess, showError } from "@/utils/toast";
 import { cn } from "@/lib/utils";
-import { formatCurrencyINR } from "@/utils/currency"; // Import the new utility
+import { formatCurrencyINR, USD_TO_INR_RATE } from "@/utils/currency"; // Import USD_TO_INR_RATE
 
 const BudgetTracker = () => {
   const { transactions, budgetTarget, setBudgetTarget } = useTransactions();
-  const [newBudgetValue, setNewBudgetValue] = useState<string>(budgetTarget?.toString() || "");
+  const [newBudgetValue, setNewBudgetValue] = useState<string>(budgetTarget !== null ? (budgetTarget * USD_TO_INR_RATE).toString() : "");
 
   const totalExpenses = transactions
     .filter(t => t.type === "expense")
@@ -24,12 +24,13 @@ const BudgetTracker = () => {
   const progressValue = budgetTarget !== null ? (totalExpenses / budgetTarget) * 100 : 0;
 
   const handleSetBudget = () => {
-    const parsedBudget = parseFloat(newBudgetValue);
-    if (isNaN(parsedBudget) || parsedBudget <= 0) {
+    const parsedBudgetINR = parseFloat(newBudgetValue);
+    if (isNaN(parsedBudgetINR) || parsedBudgetINR <= 0) {
       showError("Please enter a valid positive number for your budget.");
       return;
     }
-    setBudgetTarget(parsedBudget);
+    // Convert INR input to USD for internal storage
+    setBudgetTarget(parsedBudgetINR / USD_TO_INR_RATE);
     showSuccess("Budget target set successfully!");
   };
 
@@ -47,12 +48,12 @@ const BudgetTracker = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-2">
-          <Label htmlFor="budget-target">Set Your Monthly Budget (in USD)</Label> {/* Clarify input is USD */}
+          <Label htmlFor="budget-target">Set Your Monthly Budget (in INR)</Label> {/* Clarify input is INR */}
           <div className="flex space-x-2">
             <Input
               id="budget-target"
               type="number"
-              placeholder="e.g., 1500"
+              placeholder="e.g., 15000"
               value={newBudgetValue}
               onChange={(e) => setNewBudgetValue(e.target.value)}
             />

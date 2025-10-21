@@ -9,7 +9,7 @@ import { PlusCircle, Trash2 } from "lucide-react";
 import { useTransactions } from "@/context/TransactionContext";
 import { showSuccess, showError } from "@/utils/toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { formatCurrencyINR } from "@/utils/currency"; // Import the new utility
+import { formatCurrencyINR, USD_TO_INR_RATE } from "@/utils/currency"; // Import USD_TO_INR_RATE
 
 const Expenses = () => {
   const { transactions, addTransaction, deleteTransaction } = useTransactions();
@@ -19,18 +19,17 @@ const Expenses = () => {
   const expenseTransactions = transactions.filter(t => t.type === "expense");
 
   const handleAddExpense = () => {
-    console.log("Expenses: handleAddExpense called with category:", category, "amount:", amount);
-    const parsedAmount = parseFloat(amount);
-    if (!category || isNaN(parsedAmount) || parsedAmount <= 0) {
+    const parsedAmountINR = parseFloat(amount);
+    if (!category || isNaN(parsedAmountINR) || parsedAmountINR <= 0) {
       showError("Please enter a valid category and a positive amount.");
-      console.error("Expenses: Invalid input for adding expense.");
       return;
     }
 
+    // Convert INR input to USD for internal storage
     addTransaction({
       type: "expense",
       sourceOrCategory: category,
-      amount: parsedAmount,
+      amount: parsedAmountINR / USD_TO_INR_RATE,
     });
 
     showSuccess("Expense added successfully!");
@@ -65,7 +64,7 @@ const Expenses = () => {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="expense-amount">Amount (in USD)</Label> {/* Clarify input is USD */}
+            <Label htmlFor="expense-amount">Amount (in INR)</Label> {/* Clarify input is INR */}
             <Input
               id="expense-amount"
               type="number"
@@ -93,7 +92,7 @@ const Expenses = () => {
                 <TableRow>
                   <TableHead>Date</TableHead>
                   <TableHead>Category</TableHead>
-                  <TableHead className="text-right">Amount (INR)</TableHead> {/* Update header */}
+                  <TableHead className="text-right">Amount (INR)</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
