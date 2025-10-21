@@ -10,9 +10,9 @@ import Dashboard from "./pages/Dashboard";
 import Income from "./pages/Income";
 import Expenses from "./pages/Expenses";
 import Investments from "./pages/Investments";
-import Login from "./pages/Login"; // Import the new Login page
+import Login from "./pages/Login";
 import { TransactionProvider } from "./context/TransactionContext";
-import { SessionContextProvider } from "./context/SessionContext"; // Import the SessionContextProvider
+import { SessionContextProvider } from "./context/SessionContext";
 
 const queryClient = new QueryClient();
 
@@ -22,10 +22,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <SessionContextProvider> {/* Wrap the entire app with SessionContextProvider */}
-          <TransactionProvider>
+        <TransactionProvider> {/* Moved TransactionProvider to wrap SessionContextProvider */}
+          <SessionContextProvider>
             <Routes>
-              <Route path="/login" element={<Login />} /> {/* Add the login route */}
+              <Route path="/login" element={<Login />} />
               <Route path="/" element={<Index />} />
               <Route element={<Layout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -36,8 +36,8 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </TransactionProvider>
-        </SessionContextProvider>
+          </SessionContextProvider>
+        </TransactionProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
